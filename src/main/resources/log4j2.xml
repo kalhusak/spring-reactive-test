@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${hostName} --- [%15.15t] %-40.40c{1.} : %m%n%ex
+        </Property>
+        <Property name="ACCESS_LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss.SSS} %15.15t %K{remoteAddress} %K{username} %K{userType} %K{traceId} %K{method} %K{uri} %K{status} %K{duration}%n%ex
+        </Property>
+    </Properties>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+        <Console name="AccessConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${ACCESS_LOG_PATTERN}"/>
+        </Console>
+        <File name="AccessFileAppender" fileName="access.log">
+            <PatternLayout pattern="${ACCESS_LOG_PATTERN}"/>
+        </File>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.gft.reactivetest.accesslog.AccessLogFilter" level="debug" additivity="false">
+            <AppenderRef ref="AccessFileAppender"/>
+            <AppenderRef ref="AccessConsoleAppender"/>
+        </Logger>
+
+        <Logger name="com.gft.reactivetest.accesslog.AccessLog" level="debug" additivity="false">
+            <AppenderRef ref="AccessFileAppender"/>
+            <AppenderRef ref="AccessConsoleAppender"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="ConsoleAppender"/>
+        </Root>
+    </Loggers>
+</Configuration>
